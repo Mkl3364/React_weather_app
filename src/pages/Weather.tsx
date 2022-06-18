@@ -1,26 +1,27 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import AdditionnalWeatherInfos from '../components/AdditionnalWeatherInfos';
+import AppLangage from '../components/AppLangage';
 import AppTitle from '../components/AppTitle';
 import CurrentTemp from '../components/CurrentTemp';
+import Units from '../components/Units';
 import WeatherIcon from '../components/WeatherIcon';
 import WeatherAPI from '../logic/api/getWeather';
 
 const Weather = () => {
 
-    useEffect(() => {
-        const getInitialDisplayData = async () => {
-            const obj = new WeatherAPI('Paris', 'FR', 'metric')
-            const forecast = await obj.getWeather()
-            console.log(weather)
-            setWheater(forecast)
-        }
-        getInitialDisplayData()
-    }, [])
-
     const [city, setCity] = useState<string>('')
     const [weather, setWheater] = useState<any>()
     const [valuesInFahrenheit, setValuesInFahrenheit] = useState<boolean>(false)
     const [lang, setLang] = useState<string>('')
+
+    useEffect(() => {
+        const getInitialDisplayData = async () => {
+            const obj = new WeatherAPI('Paris', 'FR', 'metric')
+            const forecast = await obj.getWeather()
+            setWheater(forecast)
+        }
+        getInitialDisplayData()
+    }, [])
 
     const catchCity = (e: ChangeEvent<HTMLInputElement>) => {
         const city = e.target.value
@@ -53,7 +54,6 @@ const Weather = () => {
     const changeLang = (e: ChangeEvent<HTMLSelectElement>) => {
         const lang = e.target.value
         setLang(lang)
-        console.log(lang)
     }
 
     console.log(weather)
@@ -74,21 +74,12 @@ const Weather = () => {
             </div>
 
             <div className='flex justify-center items-center'>
-                <p className='flex justify-center mt-40'>
-                    <button className='mx-2' onClick={changeWeatherInCelsius}>°C</button>  |
-                    <button className='mx-2' onClick={changeWeatherInFahrenheit}>°F</button>
-                </p>
+                <Units displayCelsius={changeWeatherInCelsius} displayFahrenheit={changeWeatherInFahrenheit} />
 
                 <div className='flex justify-center mt-40'> 
-                    <select name="langage" id="lang" className='bg-slate-50' onChange={changeLang}>
-                        <option value="french">FR</option>
-                        <option value="english">EN</option>
-                        {/* <option value="Deutsch">DE</option>
-                        <option value="Spanish">ES</option> */}
-                    </select>
+                    <AppLangage changeLang={changeLang}/>
                 </div>
             </div>
-
         </div>
     );
 };

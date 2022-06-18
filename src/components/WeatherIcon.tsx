@@ -5,7 +5,7 @@ export interface IWeatherIcon {
 
 const WeatherIcon = ({ icon } : IWeatherIcon) => {
     return (
-        <img src={`http://openweathermap.org/img/w/${icon}.png`} className='w-52' />
+        <img src={`http://openweathermap.org/img/w/${icon}.png`} className='w-52' alt="weather_icon" />
     );
 };
 
